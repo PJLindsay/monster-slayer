@@ -25,9 +25,10 @@ function getRandomValue(min, max) {
 const app = Vue.createApp({
   data() {
     return {
-      playerHealth: maxPlayerHitPoints,
-      monsterHealth: maxMonsterHitPoints,
       currentRound: 0,
+      logMessages: [],
+      monsterHealth: maxMonsterHitPoints,
+      playerHealth: maxPlayerHitPoints,
       winner: null
     }
   },
@@ -87,6 +88,8 @@ const app = Vue.createApp({
       const attackDamage = getRandomValue(minPlayerDamage, maxPlayerDamage)
       this.monsterHealth -= attackDamage
 
+      this.updateLogMessage('player', 'attacks', attackDamage)
+
       // Monster's counter-attack
       this.attackPlayer()
     },
@@ -97,6 +100,9 @@ const app = Vue.createApp({
     attackPlayer() {
       const attackDamage = getRandomValue(minPlayerDamage, maxPlayerDamage)
       this.playerHealth -= attackDamage
+
+      this.updateLogMessage('monster', 'attacks', attackDamage)
+
     },
 
     /*
@@ -114,6 +120,8 @@ const app = Vue.createApp({
         this.playerHealth += healValue
       }
 
+      this.updateLogMessage('player', 'heal', healValue)
+
       // Monster gets to attack
       this.attackPlayer()
     },
@@ -125,6 +133,8 @@ const app = Vue.createApp({
       this.currentRound++
       const attackDamage = getRandomValue(minPlayerDamageSpecial, maxPlayerDamageSpecial)
       this.monsterHealth -= attackDamage
+
+      this.updateLogMessage('player', 'special attacks', attackDamage)
 
       // Monster's counter-attack
       this.attackPlayer()
@@ -138,10 +148,19 @@ const app = Vue.createApp({
       this.monsterHealth = maxMonsterHitPoints
       this.winner = null
       this.currentRound = 0
+      this.logMessages = []
     },
 
     surrender() {
       this.winner = 'monster'
+    },
+
+    updateLogMessage (who, what, value) {
+      this.logMessages.unshift({
+        actionBy: who,
+        actionType: what,
+        actionValue: value
+      })
     }
 
   }

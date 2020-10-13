@@ -28,9 +28,12 @@ Loss - monster kills player
 Draw - player kills monster and monster kills player on same turn
 
 
-## Concepts
+## Vue Concepts
 
 - Computed properties
-- Dynamic Style binding / Interpolation: player and monster health status
-- Watcher: monitor player/monster health to check win condition
+- Dynamic Style binding / Interpolation: player and monster health status, battle log
+- watch: monitor player/monster health to check win condition
 - v-if: for conditional content (You lost | You won | It's a draw) - if winner is truthy, then Game is over
+- v-for: to set battle log (loop on all messages in battle log to create list items on screen)
+- v-bind: for dynamic html classes and styles
+
