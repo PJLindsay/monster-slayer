@@ -3,26 +3,32 @@
 const maxPlayerDamage = 12
 const minPlayerDamage = 6
 
+const maxPlayerHitPoints = 100
+
 // special attack damage range
 const maxPlayerDamageSpecial = 25
 const minPlayerDamageSpecial = 10
 
+/* Monster Values */
 const maxMonsterDamage = 15
 const minMonsterDamage = 8
+
+const maxMonsterHitPoints = 100
 
 /*
 **  helper methods
 */
-function getRandomDamageValue(min, max) {
+function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
 const app = Vue.createApp({
   data() {
     return {
-      playerHealth: 100,
-      monsterHealth: 100,
-      currentRound: 0
+      playerHealth: maxPlayerHitPoints,
+      monsterHealth: maxMonsterHitPoints,
+      currentRound: 0,
+      winner: null
     }
   },
   computed: {
@@ -36,6 +42,34 @@ const app = Vue.createApp({
       return this.currentRound % 3 !== 0
     }
   },
+  watch: {
+    /* check for win conditions: Player perspective
+    ** NOTE: it is possible that both watchers will fire on same turn and
+    ** we will calculate a DRAW twice (once for monster and once for player)
+    */
+   playerHealth(value) {
+      if (value <= 0 && this.monsterHealth <= 0) {
+        // DRAW
+        this.winner = 'draw'
+      } else if (value <= 0) {
+        // PLAYER LOSES
+        this.winner = 'monster'
+      }
+    },
+    /* check for win conditions: Monster perspective
+    ** NOTE: it is possible that both watchers will fire on same turn and
+    ** we will calculate a DRAW twice (once for monster and once for player)
+    */
+   monsterHealth(value) {
+      if (value <= 0 && this.playerHealth <= 0) {
+        // DRAW
+        this.winner = 'draw'
+      } else if (value <= 0) {
+        // MONSTER LOSES
+        this.winner = 'player'
+      }
+    }
+  },
   methods: {
     /*
     ** Player attacking monster
@@ -44,7 +78,7 @@ const app = Vue.createApp({
     */
     attackMonster() {
       this.currentRound++
-      const attackDamage = getRandomDamageValue(minPlayerDamage, maxPlayerDamage)
+      const attackDamage = getRandomValue(minPlayerDamage, maxPlayerDamage)
       this.monsterHealth -= attackDamage
 
       // Monster's counter-attack
@@ -55,8 +89,27 @@ const app = Vue.createApp({
     ** Monster attacking player
     */
     attackPlayer() {
-      const attackDamage = getRandomDamageValue(minPlayerDamage, maxPlayerDamage)
+      const attackDamage = getRandomValue(minPlayerDamage, maxPlayerDamage)
       this.playerHealth -= attackDamage
+    },
+
+    /*
+    ** Player's self-heal ability (drink health potion)
+    ** cannot heal higher than player's maximum HitPoints
+    ** Monster can attack player when they use heal potion
+    */
+    healPlayer() {
+      this.currentRound++
+      const healValue = getRandomValue(8, 20)
+
+      if (this.playerHealth + healValue > maxPlayerHitPoints) {
+        this.playerHealth = maxPlayerHitPoints
+      } else {
+        this.playerHealth += healValue
+      }
+
+      // Monster gets to attack
+      this.attackPlayer()
     },
 
     /*
@@ -64,7 +117,7 @@ const app = Vue.createApp({
     */
     specialAttackMonster() {
       this.currentRound++
-      const attackDamage = getRandomDamageValue(minPlayerDamageSpecial, maxPlayerDamageSpecial)
+      const attackDamage = getRandomValue(minPlayerDamageSpecial, maxPlayerDamageSpecial)
       this.monsterHealth -= attackDamage
 
       // Monster's counter-attack

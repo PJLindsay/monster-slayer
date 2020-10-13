@@ -9,15 +9,28 @@ Inspired by Udemy Vue3 course
 
 Simple game to show off basic Vue.js functionality
 
-Player attack damage: between 5-12 HP per attack
+### Player Abilities
 
+Player attack damage: between 5-12 HP per attack
 Player special attack: available every 3 turns
+Player heal: available every turn
+
+### Monster Abilities
 
 Monster attack damage: between 8-15 HP per attack
+can attack when player attacks or uses healing potion
 
-Player has healing potions
+
+## Win Conditions:
+
+Win - player kills monster
+Loss - monster kills player
+Draw - player kills monster and monster kills player on same turn
+
 
 ## Concepts
 
 - Computed properties
-- Dynamic Style binding / Interpolation
+- Dynamic Style binding / Interpolation: player and monster health status
+- Watcher: monitor player/monster health to check win condition
+- v-if: for conditional content (You lost | You won | It's a draw) - if winner is truthy, then Game is over
