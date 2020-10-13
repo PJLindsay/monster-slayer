@@ -6,9 +6,9 @@ Monster Slayer game - showcase basic Vue.js functionality
 
 ### Player Abilities
 
-Player attack damage: between 5-12 HP per attack
-Player special attack: available every 3 turns
-Player heal: available every turn
+Player attack damage - (5-12 HP) each round
+Player heal: available (8-20 HP) each round
+Player special attack - (10- 25 HP) every 3rd round
 
 ### Monster Abilities
 
@@ -18,9 +18,9 @@ can attack when player attacks or uses healing potion
 
 ## Win Conditions:
 
-Win - player kills monster
-Loss - monster kills player
-Draw - player kills monster and monster kills player on same turn
+- Win: player kills monster
+- Loss: monster kills player
+- Draw: player kills monster and monster kills player on same turn
 
 
 ## Vue Concepts
