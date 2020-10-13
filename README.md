@@ -1,13 +1,8 @@
 # monster-slayer
 
-Monster Slayer game
-
-Inspired by Udemy Vue3 course
-
+Monster Slayer game - showcase basic Vue.js functionality
 
 ## Game Rules
-
-Simple game to show off basic Vue.js functionality
 
 ### Player Abilities
 
