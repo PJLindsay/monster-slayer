@@ -12,8 +12,8 @@ Monster Slayer game - showcase basic Vue.js functionality
 
 ### Monster Abilities
 
-Monster attack damage: between 8-15 HP per attack
-can attack when player attacks or uses healing potion
+- Monster attack damage: (8-15 HP) per attack
+- Attacks when player attacks, special attacks or uses healing potion
 
 
 ## Win Conditions:
