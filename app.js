@@ -33,9 +33,15 @@ const app = Vue.createApp({
   },
   computed: {
     monsterHealthBarStyle() {
+      if (this.monsterHealth < 0) {
+        return { width: '0%' }
+      }
       return { width: this.monsterHealth + '%' }
     },
     playerHealthBarStyle() {
+      if (this.playerHealth < 0) {
+        return { width: '0%' }
+      }
       return { width: this.playerHealth + '%' }
     },
     canUseSpecialAttack() {
@@ -123,6 +129,16 @@ const app = Vue.createApp({
       // Monster's counter-attack
       this.attackPlayer()
     },
+
+    /*
+    ** Start Game: reset game status values
+    */
+    startGame() {
+      this.playerHealth = maxPlayerHitPoints
+      this.monsterHealth = maxMonsterHitPoints
+      this.winner = null
+      this.currentRound = 0
+    }
 
   }
 })
